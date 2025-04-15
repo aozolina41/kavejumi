@@ -1,8 +1,0 @@
-import sqlite3
-import datetime
-def main():
-    print("Programma ļauj apskatīt filmu datubāzi un veikt dažādas darbības ar tās ierakstiem.")
-    #izveido savienojumu ar db un kursoru kas izpildīs vaicājumus
-    with _sqlite3.connect("Kristine-Agneta_Projekts.db") as conn:
-        c = conn.cursor()
-        izvele(c)
