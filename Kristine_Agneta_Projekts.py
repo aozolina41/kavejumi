@@ -2,28 +2,38 @@ import sqlite3
 import datetime
 def main():
     print("Programma ļauj apskatīt savus stundu kavējumus un rezultātus redzēt procentuāli.")
-    #izveido savienojumu ar db un kursoru kas izpildīs vaicājumus
+        #izveido savienojumu ar db un kursoru kas izpildīs vaicājumus
+    izvele()
+def savienojums():
     with sqlite3.connect("Kristine-Agneta_Projekts.db") as conn:
         c = conn.cursor()
-        izvele(c)
-def izvele (ieiet):
+        return c
+
+def izvele ():
     iz = int(input("Izvēlaties darbību : ieiet profilā - 1, izveidot profilu - 2: "))
     if iz == 1 :
         ieiet()
     elif iz == 2 :
         izveidot()
     
-def ieiet(c):
+def ieiet():
+    c = savienojums()
     liet = input("ievadiet savu lietotājvārdu")
-    c.execute(f"SELECT * WHERE LIETOTAJS = \"{liet} \"")
+    c.execute(f"SELECT * from LIETOTAJS WHERE lietotajv = \"{liet} \"")
+    iespejas()
 def izveidot():
+    c = savienojums()
     vards = input("ievadiet savu vārdu:")
     uzvards = input ("ievadiet savu uzvārdu: ")
     lietotajv = input("ievadiet savu lietotājvārdu: ")
-    stundas = input("ievadiet cik stundas jums ir nedēļā: ")
-    kl = ("ievadiet savu klasi: ")
-    c.excute(f"update LIETOTAJS set Vards = \"{vards}\", Uzvards = \"{uzvards}\", Klase = \"{kl}\", Lietv = \"{lietotajv}\"")
-def iespejas(c):
+    kl = input("ievadiet savu klasi: ")
+    stundas = input("ievadi stundu skaitu nedēļā: ")
+    c.execute(f"insert into LIETOTAJS (vards, Uzvards, Klase, Lietotajv ) values(\"{vards}\", \"{uzvards}\", {kl}, \"{lietotajv}\"  )")
+    c.execute(f"insert into STUNDAS (ned_st) values({stundas} WHERE LIETOTAJS.Liet_ID = STUNDAS.liet_ID )")
+    iespejas() 
+    c.connection.commit()
+def iespejas():
+    c = savienojums()
     print("Izvēlies darbību:")
     while True:
         print("1.Pievienot nedēļas apmeklējumu\n2. Aprēķināt apmeklējumu procentu\n3. Aprēķināt aptuveno gada apmeklējumu\n4. Skatīt iepriekšējos datus\n5. Beigt darbu")
@@ -42,17 +52,15 @@ def iespejas(c):
         elif izvele == "5":
             break
 def pievienot(c):
-    try:
-        stundas_kopa = int(input("Ievadi kopējo stundu skaitu nedēļā: "))
-        kavetas_stundas = int(input("Ievadi kavēto stundu skaitu nedēļā: "))
-        kavejums = aprekini(stundas_kopa, kavetas_stundas)
-        if lietotajs not in data:
-            data[lietotajs] = []
-        data[lietotajs].append(kavejums)
-        save_data(lietotajs, data)
-        print(f"Tavs apmeklējums šajā nedēļā ir {kavejums:.2f}%.")
-    except ValueError:
-        print("Nederīga ievade")
+    c = savienojums()
+    stundas_kopa = int(input("Ievadi kopējo stundu skaitu nedēļā: "))
+    c.execute(f"")
+    kavetas_stundas = int(input("Ievadi kavēto stundu skaitu nedēļā: "))
+    apmeklets = stundas_kopa - kavetas_stundas
+    kavejums = apmeklets / stundas_kopa * 100
+    c.execute(f"")
+    print(f"Tavs apmeklējums šajā nedēļā ir {kavejums:.2f}%.")
+
 
 
 
