@@ -45,33 +45,30 @@ def iespejas(liet):
     c = savienojums()
     print("Izvēlies darbību:")
     while True:
-        print("1.Pievienot nedēļas apmeklējumu\n2. Aprēķināt apmeklējumu procentu\n3. Aprēķināt aptuveno gada apmeklējumu\n4. apskatīt profilu\n5. Beigt darbu")
+        print("1.Pievienot nedēļas apmeklējumu\n2. apskatīt profilu\n3. Beigt darbu")
         izvele = input("Tava izvēle: ")
         if izvele not in ["1", "2","3","4","5"]:
             print("Nederīga ievade")
             continue
         if izvele == "1":
-            pievienot(c)
+            pievienot(liet)
         elif izvele == "2":
-            procenti()
-        elif izvele == "3":
-            gads()
-        elif izvele == "4":
             apskatit(liet)
-        elif izvele == "5":
+        elif izvele == "3":
             break
 def pievienot(liet):
     c = savienojums()
     stundas_kopa = int(input("Ievadi kopējo stundu skaitu nedēļā: "))
-
     kavetas_stundas = int(input("Ievadi kavēto stundu skaitu nedēļā: "))
-
     apmeklets = stundas_kopa - kavetas_stundas
     kavejums = apmeklets / stundas_kopa * 100
-    c.execute("UPDATE STUNDAS SET ned_st = ?, neapm = ? WHERE liet_ID = {}")
+    q = f"UPDATE STUNDAS SET Ned_st = {stundas_kopa}, Neapm = {kavetas_stundas} WHERE liet_ID = {liet}"
+    c.execute(q)
     print(f"Tavs apmeklējums šajā nedēļā ir {kavejums:.2f}%.")
     c.connection.commit()
-#def procenti():
+
+
+
 def apskatit(liet):
     c = savienojums()
     
