@@ -23,7 +23,7 @@ def ieiet():
     #c.execute(f"SELECT * from LIETOTAJS WHERE Lietotajv = \"{liet} \"")
     c.execute(f"SELECT Liet_ID from LIETOTAJS WHERE Lietotajv = \"{liet}\"")
     d = c.fetchall()[0][0]
-    print(d)
+    
     return d
 def izveidot():
     c = savienojums()
