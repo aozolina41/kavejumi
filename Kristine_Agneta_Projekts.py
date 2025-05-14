@@ -4,12 +4,12 @@ def main():
     print("Programma ļauj apskatīt savus stundu kavējumus un rezultātus redzēt procentuāli.")
         #izveido savienojumu ar db un kursoru kas izpildīs vaicājumus
     izvele()
-def savienojums():
+def savienojums():# izveido savienojumu ar datu bāzi
     with sqlite3.connect("Kristine-Agneta_Projekts.db") as conn:
         c = conn.cursor()
         return c
 
-def izvele ():
+def izvele ():#iespēja ieiet profilā vai izveidot jaunu profilu
     iz = int(input("Izvēlaties darbību : ieiet profilā - 1, izveidot profilu - 2: "))
     try:
         if iz == 1 :
@@ -22,7 +22,7 @@ def izvele ():
     except ValueError:
         print("Lūdzu ievadi tikai skaitli!")
     
-def ieiet():
+def ieiet():#pieslēgšanās ar lietotāvārdu
     c = savienojums()
     liet = input("ievadiet savu lietotājvārdu: ")
     try:
@@ -33,7 +33,7 @@ def ieiet():
         print(f"Kļūda pieslēdzoties(lietotājs neeksistē)")
         return None
     return d
-def izveidot():
+def izveidot():#jauna profila izveide
     c = savienojums()
     vards = input("ievadiet savu vārdu:")
     uzvards = input ("ievadiet savu uzvārdu: ")
@@ -55,7 +55,7 @@ def izveidot():
         izveidot()
     except :
         print(f"Kļūda izveidojot profilu")
-def iespejas(liet):
+def iespejas(liet):#lietotājam iespējamās darbības 
     c = savienojums()
     print("Izvēlies darbību:")
     try:
@@ -73,7 +73,7 @@ def iespejas(liet):
                 break
     except Exception as e:
         print(f"Kļūda darbībā: {e}")
-def pievienot(liet):
+def pievienot(liet):#aprēķina kopējo procentuālo skaitu kavētajām stundām
     try:
         c = savienojums()
         stundas_kopa = int(input("Ievadi kopējo stundu skaitu nedēļā: "))
@@ -88,7 +88,7 @@ def pievienot(liet):
         print("Lūdzu ievadi skaitļus!")
     except Exception as e:
         print(f"Kļūda atjauninot datus: {e}")
-def apskatit(liet):
+def apskatit(liet):#apskati visus iespējamos datus kas lietotājiem pieejams
     try:
         c = savienojums()
         
